@@ -1,6 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 const Users = require("../models/Users");
+const { execArgv } = require("process");
 const router = express.Router();
 
 router.post("/register", (req, res) => {
@@ -28,7 +29,22 @@ router.post("/register", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-  Users.create(req.body).then((x) => res.status(201).send(x));
+  const { email, password } = req.body;
+  Users.findOne({ email })
+    .exec()
+    .then((user) => {
+      if (!user) {
+        return res.send("user no exists");
+      }
+      crypto.pbkdf2(password, user.salt, 1000, 64, "sha1", (err, key) => {
+        const encryptedPassword = key.toString("base64");
+        if (user.password === encryptedPassword) {
+          const token = signToken(user._id);
+          return res.send( {token} );
+        }
+        return res.send("user or password incorrect");
+      });
+    });
 });
 
 module.exports = router;
