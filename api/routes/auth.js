@@ -1,8 +1,16 @@
 const express = require("express");
 const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+
 const Users = require("../models/Users");
 const { execArgv } = require("process");
 const router = express.Router();
+
+const signToken = (id) => {
+  return jwt.sign({ _id }, "mySecret", {
+      expiresIn: 60 * 60 * 24 * 365
+  });
+};
 
 router.post("/register", (req, res) => {
   const { email, password } = req.body;
@@ -40,7 +48,7 @@ router.post("/login", (req, res) => {
         const encryptedPassword = key.toString("base64");
         if (user.password === encryptedPassword) {
           const token = signToken(user._id);
-          return res.send( {token} );
+          return res.send({ token });
         }
         return res.send("user or password incorrect");
       });
