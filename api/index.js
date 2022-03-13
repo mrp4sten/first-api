@@ -10,6 +10,7 @@ app.use(cors());
 
 const meals = require('./routes/meals');
 const orders = require('./routes/orders');
+const auth = require('./routes/auth');
 
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
@@ -18,5 +19,6 @@ mongoose.connect(process.env.MONGO_URI, {
 
 app.use('/api/meals', meals);
 app.use('/api/orders', orders);
+app.use('/api/auth', auth);
 
 module.exports = app;
