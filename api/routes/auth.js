@@ -57,7 +57,7 @@ router.post("/login", (req, res) => {
     });
 });
 
-route.get("/me", isAuthenticated, (req, res) => {
+router.get("/me", isAuthenticated, (req, res) => {
   res.send(req.user);
 });
 
