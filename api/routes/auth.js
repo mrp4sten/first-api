@@ -9,7 +9,7 @@ const { route } = require("./orders");
 const router = express.Router();
 
 const signToken = (id) => {
-  return jwt.sign({ _id }, "mySecret", {
+  return jwt.sign({ id }, "mySecret", {
     expiresIn: 60 * 60 * 24 * 365,
   });
 };
