@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken");
 
 const Users = require("../models/Users");
 const { isAuthenticated } = require("../auth");
-const { route } = require("./orders");
 
 const router = express.Router();
 
