@@ -9,10 +9,12 @@ const isAuthenticated = (req, res, next) => {
 
   jwt.verify(token, "mySecret", (err, decoded) => {
     const { _id } = decoded;
+    console.log(_id);
     Users.findOne({ _id })
       .exec()
       .then((user) => {
         req.user = user;
+        console.log(user);
         next();
       });
   });
